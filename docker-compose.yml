@@ -14,12 +14,13 @@ services:
 
   web:
     build: .
-    command: sh -c './startup.sh && sleep infinity'
+    command: sh -c './startup.sh'
     tty: true
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+    restart: always
     environment:
       - DB_NAME=rpi
       - DB_USER=postgres

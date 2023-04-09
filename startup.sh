@@ -7,4 +7,4 @@ while !</dev/tcp/db/5432;
 done;
 
 # Run scrapers
-poetry run scrapy crawl erelement
+poetry run uvicorn server.main:app --reload --host 0.0.0.0 --port 8000

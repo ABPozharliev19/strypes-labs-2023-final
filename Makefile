@@ -1,4 +1,4 @@
-SERVER_CONTAINER := raspberry-pi-shop-web-1
+SERVER_CONTAINER := strypes-labs-2023-final-web-1
 
 migrate:
 	docker exec ${SERVER_CONTAINER} bash -c "poetry run python manage.py migrate"
@@ -6,5 +6,8 @@ migrate:
 cron:
 	docker exec ${SERVER_CONTAINER} bash -c "poetry run python manage.py runcrons"
 
-scrapers:
+run_robotev:
+	docker exec ${SERVER_CONTAINER} bash -c "poetry run scrapy crawl robotev"
+
+run_erelement:
 	docker exec ${SERVER_CONTAINER} bash -c "poetry run scrapy crawl erelement"

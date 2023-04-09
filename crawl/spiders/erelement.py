@@ -1,14 +1,16 @@
 from typing import Iterator, List
+
 import scrapy
 from scrapy.http import Response, Request
-from w3lib.html import remove_tags
+
+from crawl.items import CrawlItem
+from crawl.utils import _str, _price
 
 
 class ErelementSpider(scrapy.spiders.CrawlSpider):
     name = "erelement"
+    url = "https://erelement.com/"
     start_urls = ['https://erelement.com/raspberry-pi-4']
-
-    URL = "https://erelement.com/"
 
     categories = {
         'raspberry-pi': [
@@ -21,37 +23,6 @@ class ErelementSpider(scrapy.spiders.CrawlSpider):
             'power-supplies', 'components', 'adafruit-motor-pihat', 'wireless', 'programmers-usb-modules', 'servos', 'motor-control', 'microbit'
         ]
     }
-
-    @staticmethod
-    def filter_price(price: str) -> str:
-        """
-        Filters price by removing spaces and unneeded characters.
-
-        Args:
-            price: Unfiltered price.
-
-        Returns:
-            price: Filtered price.
-        """
-        price = price.replace('\n', '')
-        price = price.replace('Цена: ', '')
-        price = price.replace('лв', '')
-
-        return price
-
-    # TODO: Convert to a normal for loop
-    @staticmethod
-    def filter_description(description: List[str]) -> str:
-        """
-        Filters description by removing html tags and spaces.
-
-        Args:
-            description: Unfiltered description
-
-        Returns:
-            description: Filtered description
-        """
-        return ''.join([remove_tags(elem).replace('\n', '').replace('\r', '').replace('\t', '').replace(u'\xa0', u' ') for elem in description])
 
     def filter_category(self, category: str) -> str:
         """
@@ -93,23 +64,25 @@ class ErelementSpider(scrapy.spiders.CrawlSpider):
         urls = response.xpath('//td/a/@href').getall()
         urls = [url for url in urls if url.find('buy_now') == -1]
         for url in urls:
-            yield Request(url, callback=self.parse, meta = {'dont_redirect': True})
+            yield Request(url, callback=self.parse, meta={'dont_redirect': True})
 
     def parse(self, response: Response):
+        item = CrawlItem()
+
         name = response.xpath('//*[@id="productName"]/text()').get()
-        description = response.xpath('//*[@id="productbox"]').getall()
+        description = response.xpath('//*[@id="productbox"]//text()').getall()
         price = response.xpath('//*[@id="productPrices"]/text()').get()
-        category = response.url.replace(self.URL, '').rsplit('/')[0].rsplit('?')[0]
-        image = self.URL + response.xpath('//*[@id="productMainImage"]//a/img/@src').get()
+        category = response.url.replace(self.url, '').rsplit('/')[0].rsplit('?')[0]
+        image = self.url + response.xpath('//*[@id="productMainImage"]//a/img/@src').get()
         url = response.url
 
-        item = {
-            "name": name,
-            "description": self.filter_description(description),
-            "price": self.filter_price(price),
-            "category": self.filter_category(category),
-            "image": image,
-            "url": url
+        item['name'] = name
+        item['url'] = url
+        item['price'] = _price(price)
+        item['category'] = self.filter_category(category)
+        item['image'] = image
+        item['properties'] = {
+            'description': _str(description),
         }
 
         yield item
