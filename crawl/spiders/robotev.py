@@ -58,7 +58,7 @@ class RobotevSpider(scrapy.Spider):
 
         item["url"] = response.url
         item["name"] = _str(name)
-        item["price"] = _price(price)
+        item["price"] = 2
         item["image"] = self.url + image if image is not None else None
         item["properties"] = {
             "description": _str(description),

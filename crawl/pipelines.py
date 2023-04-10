@@ -1,10 +1,12 @@
 import os
-from sqlalchemy import create_engine, select, and_
+from datetime import datetime
+from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from crawl.models.Base import Base
 from crawl.models.Listing import Listing
 from crawl.models.Source import Source
+from crawl.models.Fluctuation import Fluctuation
 
 from .items import CrawlItem
 
@@ -54,10 +56,20 @@ class CrawlPipeline:
             self.session.commit()
 
         else:
+            if db_item.price != item.get("price"):
+                fluctuation = Fluctuation(
+                    listing_id=db_item.id,
+                    type="price",
+                    previous=db_item.price,
+                    new=item.get("price")
+                )
+                self.session.add(fluctuation)
+
             db_item.price = item.get("price")
             db_item.category = item.get("category")
             db_item.image = item.get("image")
             db_item.properties = item.get("properties")
+            db_item.updated_at = datetime.now()
 
             self.session.commit()
 
