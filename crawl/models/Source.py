@@ -21,6 +21,11 @@ class Source(Base):
             "id": 2,
             "name": "robotev",
             "url": "https://www.robotev.com"
+        },
+        {
+            "id": 3,
+            "name": "mobilestore",
+            "url": "https://www.mobilestore.bg"
         }
     ]
 

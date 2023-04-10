@@ -11,3 +11,8 @@ run_robotev:
 
 run_erelement:
 	docker exec ${SERVER_CONTAINER} bash -c "poetry run scrapy crawl erelement"
+
+run_mobilestore:
+	docker exec ${SERVER_CONTAINER} bash -c "poetry run scrapy crawl mobilestore"
+
+run_scrapers: run_erelement run_robotev run_mobilestore

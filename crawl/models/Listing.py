@@ -13,7 +13,7 @@ class Listing(Base, TimestampMixin):
     source_id: Mapped[int] = mapped_column(ForeignKey("sources.id"))
     name: Mapped[str] = mapped_column(String, nullable=False)
     url: Mapped[str] = mapped_column(String, nullable=False)
-    price: Mapped[float] = mapped_column(Float, nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=True)
     category: Mapped[str] = mapped_column(String, nullable=True)
     image: Mapped[str] = mapped_column(String, nullable=False)
     properties: Mapped[dict] = mapped_column(JSON, nullable=False)
