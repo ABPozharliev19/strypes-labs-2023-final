@@ -1,7 +1,9 @@
-from sqlalchemy import Integer, String, Float, JSON, ForeignKey
+from sqlalchemy import Integer, String, Float, JSON, ForeignKey, event
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .Base import Base, TimestampMixin
+
+from crawl import es
 
 
 class Listing(Base, TimestampMixin):
@@ -15,3 +17,13 @@ class Listing(Base, TimestampMixin):
     category: Mapped[str] = mapped_column(String, nullable=True)
     image: Mapped[str] = mapped_column(String, nullable=False)
     properties: Mapped[dict] = mapped_column(JSON, nullable=False)
+
+
+@event.listens_for(Listing, "after_insert")
+def create_listing(mapper, connection, target):
+    es.Listing.on_create(target, connection)
+
+
+@event.listens_for(Listing, "after_update")
+def create_listing(mapper, connection, target):
+    es.Listing.on_update(target)

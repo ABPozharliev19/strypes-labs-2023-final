@@ -20,14 +20,12 @@ class CrawlPipeline:
         Base.metadata.create_all(self.engine)
 
     def process_item(self, item: CrawlItem, spider):
-        db_item = self.session.query(Listing)\
+        db_item = self.session.query(Listing) \
             .join(Source, Listing.source_id == Source.id) \
             .filter(
                 Listing.name.like(item.get("name")),
                 Source.name.like(spider.name)
             )
-
-        print(spider.name)
 
         if spider.name == "robotev":
             db_item.filter(
@@ -36,9 +34,7 @@ class CrawlPipeline:
 
         db_item = db_item.first()
 
-        item_exists = bool(db_item)
-
-        if not item_exists:
+        if not bool(db_item):
             source = self.session.query(Source) \
                 .filter(
                     Source.name.like(spider.name)
