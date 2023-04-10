@@ -1,8 +1,11 @@
+import re
+
 import scrapy
 from scrapy.http import Response
 
 from crawl.items import CrawlItem
 from crawl.utils import _str, _price
+import crawl.models.Source
 
 
 class RobotevSpider(scrapy.Spider):
@@ -48,12 +51,19 @@ class RobotevSpider(scrapy.Spider):
         image = base.xpath(".//div/a/img/@src").get()
         description = base.xpath("./p//text() | ./ul//text()").getall()
 
+        product_id = re.search(r".*products_id=([a-zA-z0-9]+).*", response.url)
+
+        if product_id:
+            product_id = product_id.group(1)
+
         item["url"] = response.url
         item["name"] = _str(name)
         item["price"] = _price(price)
         item["image"] = self.url + image if image is not None else None
         item["properties"] = {
-            "description": _str(description)
+            "description": _str(description),
+            "product_id": product_id,
         }
 
-        yield item
+        if response.url.find("shopping_cart") == -1:
+            yield item
