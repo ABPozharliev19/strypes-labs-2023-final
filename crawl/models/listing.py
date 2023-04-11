@@ -1,7 +1,7 @@
 from sqlalchemy import Integer, String, Float, JSON, ForeignKey, event
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .Base import Base, TimestampMixin
+from .base import Base, TimestampMixin
 
 from crawl import es
 

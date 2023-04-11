@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Document, Text, Integer, Keyword, Float, Object, connections
-from crawl.models.Source import Source
+from crawl.models.source import Source
 
 connections.create_connection(hosts=["elasticsearch"])
 client = Elasticsearch(hosts=["elasticsearch"])

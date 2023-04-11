@@ -1,7 +1,7 @@
 from sqlalchemy import event, String, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .Base import Base, TimestampMixin
+from .base import Base, TimestampMixin
 
 
 class Source(Base):

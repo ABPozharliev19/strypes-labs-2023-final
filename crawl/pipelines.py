@@ -3,10 +3,10 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from crawl.models.Base import Base
-from crawl.models.Listing import Listing
-from crawl.models.Source import Source
-from crawl.models.Fluctuation import Fluctuation
+from crawl.models.base import Base
+from crawl.models.listing import Listing
+from crawl.models.source import Source
+from crawl.models.fluctuation import Fluctuation
 
 from .items import CrawlItem
 

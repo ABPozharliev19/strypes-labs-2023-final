@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy import Integer, String, DateTime, func, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .Base import Base
+from .base import Base
 
 
 class Fluctuation(Base):
