@@ -5,8 +5,6 @@ import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
-import { ThemeProvider } from "styled-components";
-
 import { store } from "./store";
 import App from "./app";
 

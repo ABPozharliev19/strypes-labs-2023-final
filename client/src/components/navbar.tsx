@@ -1,16 +1,24 @@
 import { KeyboardEventHandler, ReactElement, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { SearchBar } from "@app/styles/navbar.style";
 import { Container } from "@app/styles/common.style";
+import { useSearchText } from "@app/stores/reducers";
+import { setSearchText } from "@app/stores/search.store";
 
 const Navbar: React.FC = (): ReactElement => {
-	const [search, setSearch] = useState("");
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const searchState = useSearchText();
+
+	const [search, setSearch] = useState(searchState);
 
 	const onSearch = (event: KeyboardEventHandler): void => {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
 		if (event.key === "Enter") {
-			console.log("nice");
+			dispatch(setSearchText(search));
+			navigate("/search");
 		}
 	};
 

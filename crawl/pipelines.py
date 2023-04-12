@@ -21,6 +21,20 @@ class CrawlPipeline:
 
         Base.metadata.create_all(self.engine)
 
+    @staticmethod
+    def clean_description(description: str):
+        new_description = ""
+        for i in range(len(description)):
+            if i == 0:
+                new_description += description[i]
+            else:
+                if description[i].isupper() and description[i - 1].islower():
+                    new_description += ". " + description[i]
+                else:
+                    new_description += description[i]
+
+        return new_description
+
     def process_item(self, item: CrawlItem, spider):
         db_item = self.session.query(Listing) \
             .join(Source, Listing.source_id == Source.id) \
@@ -42,6 +56,8 @@ class CrawlPipeline:
                     Source.name.like(spider.name)
                 ) \
                 .one()
+
+            item["properties"]["description"] = CrawlPipeline.clean_description(item["properties"]["description"])
 
             new_item = Listing(
                 source_id=source.id,

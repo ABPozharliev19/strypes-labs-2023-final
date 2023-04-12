@@ -55,6 +55,7 @@ module.exports = {
 		"@typescript-eslint/restrict-template-expressions": ["error", { "allowAny": true }],
 		"@typescript-eslint/quotes": ["error", "double"],
 		"@typescript-eslint/semi": ["error", "always"],
+        "@typescript-eslint/no-extra-semi": 0,
 		"@typescript-eslint/space-before-function-paren": ["error", "never"],
 		"@typescript-eslint/no-extraneous-class": ["error", {"allowStaticOnly": true }],
 		"@typescript-eslint/comma-dangle": ["error", {

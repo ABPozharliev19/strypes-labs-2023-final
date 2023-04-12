@@ -29,22 +29,24 @@ class ElasticService:
                 }
             }))
 
-        if params is not None:
-            if "category" in params and params["category"] is not None and len(params["category"]) > 0:
-                base = base.query(Q({
-                    "terms": {
-                        "category": params["category"]
-                    }
-                }))
-
-            if "vendor" in params and params["vendor"] is not None and len(params["vendor"]) > 0:
-                base = base.query(Q({
-                    "terms": {
-                        "source_name": params["vendor"]
-                    }
-                }))
+        # if params is not None:
+        #     if "category" in params and params["category"] is not None and len(params["category"]) > 0:
+        #         base = base.query(Q({
+        #             "terms": {
+        #                 "category": params["category"]
+        #             }
+        #         }))
+        #
+        #     if "vendor" in params and params["vendor"] is not None and len(params["vendor"]) > 0:
+        #         base = base.query(Q({
+        #             "terms": {
+        #                 "source_name": params["vendor"]
+        #             }
+        #         }))
 
         ElasticService._add_aggregations(base)
+
+        print(base.to_dict())
 
         base = base[0: base.count()]
         return base.execute()

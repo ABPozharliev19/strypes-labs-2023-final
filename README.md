@@ -7,6 +7,3 @@
 ## Nice to have
 - Similar products
 - Bonuses
-
-# Core
-## D

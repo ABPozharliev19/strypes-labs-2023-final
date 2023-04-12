@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface ISearchState {
-	searchText?: string;
+	searchText: string;
 }
 
 const searchInitialState: ISearchState = {
-	searchText: undefined,
+	searchText: "",
 };
 
 const cartSlice = createSlice({

@@ -3,12 +3,12 @@ import axios, { AxiosResponse } from "axios";
 axios.defaults.withCredentials = true;
 
 export default class Http {
-	private static readonly _base: string = "http://localhost:8000/";
+	private static readonly _base: string = "http://localhost:8000";
 	private static readonly _apiBase: string = this._base + "api";
 
 	private static async request(url: string, method: string, body?: Record<string, unknown>): Promise<AxiosResponse> {
 		const paths: { [key: string]: string } = {
-			"@api": Http._apiBase,
+			"@api": Http._base,
 		};
 
 		Object.keys(paths).forEach(path => {

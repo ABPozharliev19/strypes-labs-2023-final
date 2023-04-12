@@ -11,7 +11,7 @@ class Listing(Document):
     name = Keyword()
     url = Text()
     price = Float()
-    category = Keyword()
+    category = Text(fielddata=True)
     image = Text()
     properties = Object()
     source_id = Integer()
@@ -57,3 +57,5 @@ class Listing(Document):
         old_object.source_id = target.source_id
 
         old_object.save()
+
+Listing.init()
