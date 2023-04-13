@@ -1,0 +1,1 @@
+* * * * * root make -C /code/ run_scrapers >> /var/log/cron.log 2>&1
