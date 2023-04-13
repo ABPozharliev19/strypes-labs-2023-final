@@ -23,32 +23,51 @@ class ElasticService:
         base = ElasticService._get_search() \
             .query(Q({
                 "multi_match": {
-                    "fields": ["name", "description^0.33"],
+                    "fields": ["name", "properties.description^0.33"],
                     "query": text,
-                    "fuzziness": "1"
+                    "fuzziness": "3"
                 }
-            }))
+            })) \
+            .query("exists", field="price")
 
-        # if params is not None:
-        #     if "category" in params and params["category"] is not None and len(params["category"]) > 0:
-        #         base = base.query(Q({
-        #             "terms": {
-        #                 "category": params["category"]
-        #             }
-        #         }))
-        #
-        #     if "vendor" in params and params["vendor"] is not None and len(params["vendor"]) > 0:
-        #         base = base.query(Q({
-        #             "terms": {
-        #                 "source_name": params["vendor"]
-        #             }
-        #         }))
+        if params is not None:
+            if "category" in params and params["category"] is not None and len(params["category"]) > 0:
+                base = base.query(Q({
+                    "terms": {
+                        "category": params["category"]
+                    }
+                }))
+
+            if "vendor" in params and params["vendor"] is not None and len(params["vendor"]) > 0:
+                base = base.query(Q({
+                    "terms": {
+                        "source_name": params["vendor"]
+                    }
+                }))
 
         ElasticService._add_aggregations(base)
-
-        print(base.to_dict())
 
         base = base[0: base.count()]
         return base.execute()
 
+    @staticmethod
+    def get(identifier: int):
+        base = ElasticService._get_search() \
+            .query("match", identifier=identifier)
+
+        return base.execute()
+
+    @staticmethod
+    def similar_results(name: str):
+        base = ElasticService._get_search() \
+            .query("match", name=name)
+
+        return base.execute()
+
+    @staticmethod
+    def bonus_results(category: str):
+        base = ElasticService._get_search() \
+            .exclude("match", category=category)
+
+        return base.execute()
 

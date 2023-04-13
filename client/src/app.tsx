@@ -1,18 +1,19 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
 import Navbar from "@app/components/navbar";
+
 import { SearchPage } from "@app/pages/search.page";
+import { ProductPage } from "@app/pages/listing.page";
 
 const App = (): JSX.Element => {
-	const dispatch = useDispatch();
-
 	return (
 		<Router>
 			< Navbar />
 
 			<Routes>
 				<Route path={"/search"} element={ <SearchPage />} />
+				<Route path={"/listing/:id"} element={ <ProductPage />} />
 			</Routes>
 		</Router>
 	);

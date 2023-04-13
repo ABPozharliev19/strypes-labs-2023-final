@@ -1,5 +1,5 @@
 import Http from "@app/request";
-import IListing from "@app/types/Listing";
+import { IListing } from "@app/types/Listing";
 import IFacet from "@app/types/Facet";
 
 export interface ISearchRequest {
@@ -17,11 +17,11 @@ export default class SearchService {
 		return await Http.get("@api/listing/").then(data => data as unknown as ISearchResponse);
 	}
 
-	static async search(text: string, facets?: IFacet): Promise<ISearchResponse> {
+	static async search(text: string, vendor?: string, categories?: string): Promise<ISearchResponse> {
 		return await Http.post("@api/listing", {
 			searchText: text,
-			vendor: facets?.vendors != null ? [facets.vendors] : [],
-			category: facets?.categories != null ? [facets.categories] : [],
+			vendor: vendor != null ? [vendor] : [],
+			category: categories != null ? [categories] : [],
 		}).then(data => data as unknown as ISearchResponse);
 	}
 }

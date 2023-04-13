@@ -9,6 +9,7 @@ from crawl.models.source import Source
 from crawl.models.fluctuation import Fluctuation
 
 from .items import CrawlItem
+from .services import ImageService
 
 
 class CrawlPipeline:
@@ -70,6 +71,8 @@ class CrawlPipeline:
             )
             self.session.add(new_item)
             self.session.commit()
+
+            ImageService.save_image(item.get("image"), new_item.id)
 
         else:
             if db_item.price != item.get("price"):

@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi.responses import FileResponse
 
 from server.models.listing import Listing
 from server.models.base import session
@@ -16,10 +17,12 @@ listing_router = APIRouter(
 
 @listing_router.get("/")
 async def get_listings():
-    return session.query(Listing) \
-        .where(Listing.price is not None) \
-        .order_by(Listing.price.desc()) \
-        .all()
+    return {
+        "results": session.query(Listing) \
+            .where(Listing.price is not None) \
+            .order_by(Listing.price.desc()) \
+            .all()
+    }
 
 
 @listing_router.post("/")
@@ -33,3 +36,38 @@ async def search_listings(data: SearchRequest):
     )
 
     return to_dict(results)
+
+
+@listing_router.get("/{identifier}")
+async def get_listing(identifier: int):
+    results = ElasticService.get(identifier)
+    base = to_dict(results, aggregations=False)
+
+    if len(base["results"]) > 0:
+        base["results"] = base["results"][0]
+
+    return base
+
+
+@listing_router.get("/similar/{name}")
+async def get_similar_listings(name: str):
+    results = ElasticService.similar_results(name)
+    base = to_dict(results, aggregations=False)
+
+    return base
+
+
+@listing_router.get("/bonus/{category}")
+async def get_similar_listings(category: str):
+    results = ElasticService.bonus_results(category)
+    base = to_dict(results, aggregations=False)
+
+    return base
+
+
+
+@listing_router.get("/image/{identifier}")
+async def get_image(identifier: int):
+    return FileResponse(f"images/{identifier}.png")
+
+

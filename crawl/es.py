@@ -8,10 +8,10 @@ client = Elasticsearch(hosts=["elasticsearch"])
 
 class Listing(Document):
     identifier = Integer()
-    name = Keyword()
+    name = Text()
     url = Text()
     price = Float()
-    category = Text(fielddata=True)
+    category = Keyword()
     image = Text()
     properties = Object()
     source_id = Integer()

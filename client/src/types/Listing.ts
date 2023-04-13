@@ -36,6 +36,10 @@ export class Listing implements IListing {
 	}
 
 	getDescription(): string {
-		return this.properties.description.split(". ").join("\n");
+		return this.properties.description.split(" ").slice(0, 35).join(" ");
+	}
+
+	getImage(): string {
+		return `http://localhost:8000/listing/image/${this.identifier}`;
 	}
 }

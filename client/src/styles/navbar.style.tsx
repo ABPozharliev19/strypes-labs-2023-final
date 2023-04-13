@@ -28,6 +28,8 @@ export const SearchBar = styled.input`
 	border-radius: 5.283rem;
 
 	padding-left: 1.5rem;
+  	margin-top: 2rem;
+  
 
 	width: 35vw;
 	height: 44px;
