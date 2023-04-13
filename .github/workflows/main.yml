@@ -13,6 +13,9 @@ jobs:
           compose-file: "./docker-compose.yml"
           down-flags: "--volumes"
 
+      - name: Run Tests
+        run: make test
+
   frontend:
     runs-on: ubuntu-latest
     defaults:
