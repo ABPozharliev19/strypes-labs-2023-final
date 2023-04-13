@@ -1,28 +1,40 @@
 name: CI
 on: push
 jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker build
+        uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "./docker-compose.yml"
+          down-flags: "--volumes"
+
   frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./client
-      steps:
-        - name: Install NodeJS
-          uses: actions/setup-node@v2
-          with:
-            node-version: 18
+    steps:
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
 
-        - name: Code Checkout
-          uses: actions/checkout@v2
+      - name: Code Checkout
+        uses: actions/checkout@v2
 
-        - name: Install Dependencies
-          run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-        - name: Code Linting
-          run: npx eslint .
+      - name: Code Linting
+        run: npx eslint .
 
-        - name: Code formatting
-          run: npx prettier .
+      - name: Code formatting
+        run: npx prettier .
 
-        - name: Run Tests
-          run: npm test
+      - name: Run Tests
+        run: npm test
