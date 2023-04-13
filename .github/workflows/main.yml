@@ -15,9 +15,9 @@ jobs:
 
   frontend:
     runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: ./client
+    defaults:
+      run:
+        working-directory: ./client
       steps:
         - name: Install NodeJS
           uses: actions/setup-node@v2
