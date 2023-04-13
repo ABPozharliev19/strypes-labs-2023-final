@@ -1,7 +1,7 @@
 name: CI
 on: push
 jobs:
-  ci:
+  backend:
     runs-on: ubuntu-latest
     steps:
       - name: Code Checkout
@@ -12,3 +12,29 @@ jobs:
         with:
           compose-file: "./docker-compose.yml"
           down-flags: "--volumes"
+
+  frontend:
+    runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: ./client
+      steps:
+        - name: Install NodeJS
+          uses: actions/setup-node@v2
+          with:
+            node-version: 18
+
+        - name: Code Checkout
+          uses: actions/checkout@v2
+
+        - name: Install Dependencies
+          run: npm install
+
+        - name: Code Linting
+          run: npx eslint .
+
+        - name: Code formatting
+          run: npx prettier .
+
+        - name: Run Tests
+          run: npm test

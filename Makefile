@@ -3,17 +3,10 @@ SERVER_CONTAINER := strypes-labs-2023-final-web-1
 dev:
 	cd client && npm run dev
 
-build:
-	cd client && npm run build
+frontend-test:
+	cd client && npm run test
 
-start:
-	docker-compose up -d
-
-stop:
-	docker-compose down
-
-restart:
-	docker-compose restart
+test: frontend-test
 
 run_robotev:
 	docker exec ${SERVER_CONTAINER} bash -c "poetry run scrapy crawl robotev"
