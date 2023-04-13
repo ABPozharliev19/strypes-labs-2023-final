@@ -2,8 +2,7 @@ name: CI
 on: push
 jobs:
   ci:
-    runs-on: ubuntu-latest
-      steps:
+    steps:
       - name: Code Checkout
         uses: actions/checkout@v2
 
