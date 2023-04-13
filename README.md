@@ -1,9 +1,37 @@
-# strypes-labs-2023-final
-# Ideas
-## Core
-- Faceting
-- Search bar
-- Product view
-## Nice to have
-- Similar products
-- Bonuses
+## About 💻
+Utility app for comparing prices on raspberry pi's with an intuitive UI and fast and easy searching with filters
+
+## Installation ⚙
+### All you need is docker compose
+#### Starts the dev server
+```
+docker compose up -d
+```
+#### Starts the dev client
+```
+make dev
+```
+## Tests
+- Only frontend tests are implemented
+- Need to test the backend more
+```
+make test
+```
+
+## Running things manually ⚙
+### Starts the erelement scraper 
+```
+make run_erelement
+```
+### Starts the robotev scraper 
+```
+make run_robotev
+```
+### Starts the mobilestore scraper 
+```
+make run_mobilestore
+```
+### Starts every scraper
+```
+make run_scrapers
+```

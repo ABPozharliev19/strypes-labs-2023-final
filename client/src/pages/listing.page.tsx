@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { ListingContainer, NameContainer, OtherListingsContainer, TextContainer } from "@app/styles/listing.style";
-import { ListingsContainer } from "@app/styles/common.style";
+import { ListingsContainer, StyledLink } from "@app/styles/common.style";
 
 import { ListingComponent } from "@app/components/ui/listing";
 
@@ -49,7 +49,9 @@ export const ProductPage: React.FC = (): JSX.Element => {
 				<img src={listing?.image} />
 				<TextContainer>
 					<NameContainer>
-						<h1> {listing?.name} </h1>
+						<StyledLink to={listing?.url}>
+							<h1> {listing?.name} </h1>
+						</StyledLink>
 						<h3> {((listing?.category) != null) ? listing.category.toUpperCase() : "No category"} </h3>
 					</NameContainer>
 					<p> {listing?.properties.description} </p>
