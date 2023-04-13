@@ -1,18 +1,6 @@
 name: CI
 on: push
 jobs:
-  backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code Checkout
-        uses: actions/checkout@v2
-
-      - name: Docker build
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker-compose.yml"
-          down-flags: "--volumes"
-
   frontend:
     runs-on: ubuntu-latest
     defaults:
