@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /code/
 COPY . /code/
 
-RUN mkdir images/
+RUN mkdir -p images/
 
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6  -y

@@ -1,10 +1,19 @@
 SERVER_CONTAINER := strypes-labs-2023-final-web-1
 
-migrate:
-	docker exec ${SERVER_CONTAINER} bash -c "poetry run python manage.py migrate"
+dev:
+	cd client && npm run dev
 
-cron:
-	docker exec ${SERVER_CONTAINER} bash -c "poetry run python manage.py runcrons"
+build:
+	cd client && npm run build
+
+start:
+	docker-compose up -d
+
+stop:
+	docker-compose down
+
+restart:
+	docker-compose restart
 
 run_robotev:
 	docker exec ${SERVER_CONTAINER} bash -c "poetry run scrapy crawl robotev"
