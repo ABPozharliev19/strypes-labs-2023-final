@@ -19,6 +19,10 @@ make test
 ```
 
 ## Running things manually ⚙
+### Starts every scraper
+```
+make run_scrapers
+```
 ### Starts the erelement scraper 
 ```
 make run_erelement
@@ -30,8 +34,4 @@ make run_robotev
 ### Starts the mobilestore scraper 
 ```
 make run_mobilestore
-```
-### Starts every scraper
-```
-make run_scrapers
 ```
